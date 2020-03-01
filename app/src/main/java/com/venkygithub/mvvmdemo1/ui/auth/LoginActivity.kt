@@ -2,11 +2,17 @@ package com.venkygithub.mvvmdemo1.ui.auth
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.ProgressBar
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.venkygithub.mvvmdemo1.R
 import com.venkygithub.mvvmdemo1.databinding.ActivityLoginBinding
+import com.venkygithub.mvvmdemo1.util.hide
+import com.venkygithub.mvvmdemo1.util.show
 import com.venkygithub.mvvmdemo1.util.toast
+import kotlinx.android.synthetic.main.activity_login.*
 
 class LoginActivity : AppCompatActivity(),AuthListener {
 
@@ -23,14 +29,19 @@ class LoginActivity : AppCompatActivity(),AuthListener {
     }
 
     override fun onStarted() {
-        toast("Login started")
+        progress_bar.show()
     }
 
-    override fun onSuccess() {
-        toast("Login Success")
+    override fun onSuccess(loginResponse: LiveData<String>) {
+        loginResponse.observe(this, Observer {
+            progress_bar.hide()
+            toast(it)
+        })
+
     }
 
     override fun onFailure(message: String) {
+        progress_bar.hide()
         toast(message)
     }
 

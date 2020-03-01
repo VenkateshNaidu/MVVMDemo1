@@ -2,6 +2,7 @@ package com.venkygithub.mvvmdemo1.ui.auth
 
 import android.view.View
 import androidx.lifecycle.ViewModel
+import com.venkygithub.mvvmdemo1.data.repository.UserRepository
 
 class AuthViewModel : ViewModel() {
 
@@ -18,7 +19,8 @@ class AuthViewModel : ViewModel() {
             return
         }
 
-        authListener?.onSuccess()
+        val loginResponse = UserRepository().userLoginn(email!!,password!!)
+        authListener?.onSuccess(loginResponse)
     }
 
 }
