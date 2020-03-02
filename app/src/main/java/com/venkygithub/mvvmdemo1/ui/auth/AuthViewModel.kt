@@ -3,6 +3,7 @@ package com.venkygithub.mvvmdemo1.ui.auth
 import android.view.View
 import androidx.lifecycle.ViewModel
 import com.venkygithub.mvvmdemo1.data.repository.UserRepository
+import com.venkygithub.mvvmdemo1.util.Coroutines
 
 class AuthViewModel : ViewModel() {
 
@@ -19,8 +20,18 @@ class AuthViewModel : ViewModel() {
             return
         }
 
-        val loginResponse = UserRepository().userLoginn(email!!,password!!)
-        authListener?.onSuccess(loginResponse)
+        Coroutines.main {
+            val response = UserRepository().userLoginn(email!!,password!!)
+            if(response.isSuccessful){
+                authListener?.onSuccess(response.body()?.user!!)
+            }else{
+                authListener?.onFailure("Error Code: ${response.code()}")
+            }
+
+        }
+
+       /* val loginResponse = UserRepository().userLoginn(email!!,password!!)
+        authListener?.onSuccess(loginResponse)*/
     }
 
 }
