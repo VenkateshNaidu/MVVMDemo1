@@ -9,7 +9,8 @@ import java.util.*
 
 @Database(
     entities = [User::class],
-    version = 1
+    version = 1,
+    exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {
 
